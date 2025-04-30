@@ -1,20 +1,29 @@
-# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
-name: dotnet-buid
+name: dotnet-build
 
 on:
   push:
     branches: [ "main" ]
   schedule:
-   - cron: '0 11 * * *'  # Executa todos os dias às 11 horas UTC
+    - cron: '0 11 * * *'  # Executa todos os dias às 11h UTC
 
 jobs:
   build:
-    
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checar o repositório
-      uses: actions/checkout@v2  # Usando uma action pré-existente para fazer o checkout do código *
-  
+      - name: Checar o repositório
+        uses: actions/checkout@v2
+
+      - name: Configurar .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restaurar dependências
+        run: dotnet restore
+
+      - name: Compilar aplicação
+        run: dotnet build --no-restore
+
+      - name: Executar testes
+        run: dotnet test --no-build --verbosity normal
