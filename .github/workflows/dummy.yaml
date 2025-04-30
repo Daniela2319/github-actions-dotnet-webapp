@@ -1,0 +1,27 @@
+name: teste
+
+on:
+  push:
+    branches:
+      - feature/teste
+  workflow_dispatch:
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Olá Daniela!"
+  job2:
+    runs-on: ubuntu-latest
+    needs: job1
+    steps:
+      - run: echo "Olá mundo!"
+  job3:
+    runs-on: ubuntu-latest
+    needs: job2
+    steps:
+      - run: echo "Olá Pessoa!"
+  job4:
+    runs-on: ubuntu-latest
+    needs: job3
+    steps:
+      - run: echo "Good morning!"
